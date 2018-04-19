@@ -1,0 +1,205 @@
+# lmpfcst
+library(shiny)
+library(rhandsontable)
+library(ggplot2)
+
+# Define UI for app that inntakes a data file from user upload and creates a custom view ----
+ui <- fluidPage(# App title ----
+                titlePanel("View Historical Loss Mitigation Treatement Enrollments"),
+                
+                # Sidebar layout with input and output definitions ----
+                sidebarLayout(
+                  # Sidebar panel for inputs ----
+                        sidebarPanel(
+                          # Input: Select a file ----
+                          fileInput(
+                            inputId = "file",
+                            label = "Choose CSV File",
+                            multiple = FALSE,
+                            accept = c("text/csv", "text/comma-separated-values,text/plain", ".csv")
+                          ),
+                          
+                          # Render a list of views available to user to view 1 type of stuff at once as per his choice ----
+                          uiOutput("custvwus"),
+                          
+                          # Render as per user selected custom view type from above dropdown list ----
+                          # Rendered dropdown as an Output: intake L1 SEG to show .. of user uploaded data----
+                          # Rendered Slider as an Output: intake VINTAGES to show .. of user uploaded data----
+                          # Rendered dropdown as an Output: intake L2 SEG to show .. of user uploaded data----
+                          # Rendered dropdown as an Output: intake L3 SEG to show .. of user uploaded data ----
+                          uiOutput("custus")
+                    
+                  ),
+                  
+                  # Main panel for displaying outputs ----
+                  mainPanel(
+                          # Output: statistical summary of ssvar selection from user----
+                          verbatimTextOutput(outputId = "stats"),
+                          
+                          # Output: Custom data table view as per user selection of vars & obs----
+                          rHandsontableOutput(outputId = "dataview"),
+                          
+                          # Output: plot of yvar selection from user----
+                          plotOutput(outputId = "lineplot")
+                          # click = "plot_click_xyval"
+                         
+                  )
+                )
+)
+
+
+
+####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----
+####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----
+
+
+# Define server logic required to do user defined actions----
+server <- function(input, output) {
+  # About the below server script ----
+  # 1. It is "reactive" and therefore should be automatically re-executed when inputs (input$file & input$h) change
+  # 2. Its output are rewritale data table & stat_summary_info & custom interactive plots
+  
+  
+  # Displaying custom info from the file uploaded by user ----
+  
+  observeEvent(input$file, {
+      # input$file will be NULL initially. After the user uploads a file, head of that data file with all vars by default,
+      # or all obs & vars chosen by user will be rendered as editable data table and observing showplots event we show custom plots.
+      
+      df <- read.csv(
+        input$file$datapath,
+        header = TRUE,
+        sep = ",",
+        quote = '"'
+      )
+      
+      RD <<- table(df)
+      
+      max_n <<- nrow(df)
+      vars <<- colnames(df)
+  
+      
+      # dropdown is rendered for user input of var to create statistical summary info
+      # statistical summary info of the var selected
+      output$stats <- renderPrint({
+        summary(RD)
+        })
+      
+      # dataview as per obs & vars selected ----
+        # confirgure to show only the user choice of vars
+        # thereby creating an rewritable custom data table view as per user choice of obs & vars
+      output$dataview <- renderRHandsontable({
+           # we can add count of input dt vars for debugging the ERROR in case of 1 or no var selection input from the user
+            if (input$h = "ALL")
+            {
+              s <- RD
+            }
+            else
+            {
+              # head of the table is shown
+              s <- head(RD)
+            }
+  
+          rhandsontable(s)
+          
+        })
+  })
+
+  # Server output functions to be displayed on the main panel ----
+  
+  # EVENT - CLICK SHOW PLOTS INFO FOR VAR CHOSEN ----
+  observeEvent(input$custview, {
+    
+    if (input$custview == "showplotvars")
+    {   # dropdowns are rendered for user input of vars to create plots
+      output$custus <- renderUI({
+        fluidRow(
+          # Either the user can select a daterange / any other custom var for a plot / stat_sum_info
+          # add observe event to select the x-axis var input type ( 1 of 3 )
+          
+          # patch for a data range selection
+          
+          # Horizontal line ----
+          # tags$hr(),
+          
+          # vintage selection for x-axis on plot
+          # sliderInput("pernum", "Vintage:",
+          #            min = 6285, max = 6411,
+          #            value = c(6315,6409)
+          # ),
+          
+          # Horizontal line ----
+          # tags$hr(),
+          
+          # Sample custom var selection from user as x-axis on plot
+          selectInput(
+            inputId = "xvar",
+            label =  "Choose Var for X-axis",
+            choices = vars
+          ),
+          
+          
+          # add obseve event to select type of plot
+          # add better graphical option for interactive plots
+          
+          # Sample custom var selection from user as y-axis on line plot
+          selectInput(
+            inputId = "yvar",
+            label =  "Choose var for Y-axis in a line plot",
+            choices = vars
+          ),
+          
+          # Sample custom var selection from user as y-axis on scatter plot
+          selectInput(
+            inputId = "yvar2",
+            label =  "Choose var2 for Y-axis in a scatter plot",
+            choices = vars
+          ),
+          
+          actionButton(
+            "showplots",
+            "Generate plots from var selection panel "
+          )
+          
+        )
+      })
+    }
+  })
+  
+  # all plots as per obs selected in dataview ----
+  observeEvent(input$showplots, {
+      df2 <- df
+      
+      # Line Plot - daterange/vintage/xvar vs yvar1
+      output$lineplot <- renderPlot({
+        plot(x = df2[, input$xvar],
+             y = df2[, input$yvar],
+             type = "l")
+      })
+    })
+    
+}
+
+# Create Shiny app ----
+shinyApp(ui , server)
+
+
+
+
+
+# exploraory view of basic stats of yaxis var selected
+# need to create a dtaerange input on xaxis for all ts() object plots
+# yet to create an adjusted(seasonally/factor-wise normalization) vector on Y-axis
+# yet to update plot with capacbility for mathematical transformations( log-scale / %change MoM YoY )
+
+
+# Phase 1 starts parallel as we create tab1 with same basic structure
+#  and will cater to weekly view of LMP NE
+#  yet to add delinquency info view MOM YOY
+#  yet to add seasonal view (adjusted/unadjusted with dlnq)
+#  yet to add bucketwise/programwise/productwise/portfoiowise user selection
+#  yet to add WD WE WEH WDH TBD TMD calender day impact view
+
+# Phase 2 starts parallel as we create tab2 with same basic structure
+#  and will cater to a future outlook using forecasting of LMP NE
+#  yet to figure out the ratio slope /HW fcst/ ARIMA /AJ's methodv
