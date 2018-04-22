@@ -2,6 +2,7 @@
 library(shiny)
 library(rhandsontable)
 library(ggplot2)
+library(plotly)
 
 # Define UI for app that inntakes a data file from user upload and creates a custom view ----
 ui <- fluidPage(# App title ----
@@ -22,7 +23,7 @@ ui <- fluidPage(# App title ----
                     radioButtons("h", "Display",
                                  choices = c(Head = "Head", All = "All"),
                                  selected = "Head"),
-
+                    
                     
                     # Render a list of views available to user at once as per his choice ----
                     uiOutput("custview"),
@@ -40,15 +41,12 @@ ui <- fluidPage(# App title ----
                     # Output: statistical summary of ssvar selection from user ----
                     verbatimTextOutput(outputId = "stats"),
                     
+                    # Output: plot of yvar selection from user Render custom view from above dropdown list ----
+                    plotlyOutput(outputId = "p"),
+                    
                     # Output: Custom data table view as per user selection of vars & obs ----
-                    rHandsontableOutput(outputId = "dataview"),
+                    rHandsontableOutput(outputId = "dataview")
                     
-                    # Render as per user selected custom view type from above dropdown list ----
-                    
-                    
-                    # Output: plot of yvar selection from user----
-                    plotOutput(outputId = "lineplot")
-                    # click = "plot_click_xyval"
                     
                   )
                 )
@@ -67,7 +65,7 @@ server <- function(input, output) {
   # 2. Its output are rewritale data table & stat_summary_info & custom interactive plots
   
   # Server output functions to be displayed on the main panel ----
-
+  
   
   observeEvent(input$ufile, {
     # input$ufile will be NULL initially. After the user uploads a file, head of that data file is shown by default 
@@ -75,94 +73,101 @@ server <- function(input, output) {
     RD  <<- read.csv(
       input$ufile$datapath, header = TRUE, sep = ",",  quote = '"'
     )
-
+    
     max_n <<- nrow(RD)
     vars <<- colnames(RD)
     
+    
+    fluidRow(
     # dropdown is rendered for user input of var to create statistical summary info
     output$stats <- renderPrint({
       summary(RD)
-    })
+    }),
     
     
     # thereby creating an rewritable custom data table view as per user choice of obs & vars ----
     # dataview as per obs & vars selected # confirgure to show only the user choice of vars
     output$dataview <- renderRHandsontable({
-    # we can add count of input dt vars for debugging the ERROR in case of 1 or no var selection input from the user
-  
+      # we can add count of input dt vars for debugging the ERROR in case of 1 or no var selection input from the user
+      
       if (input$h != "Head")
-        {
-          s <- RD
-        }
-        else
-        {
-          # head of the table is shown
-          s <- head(RD)
-        }
-        
-        rhandsontable(s)
-    })
+      {
+        s <- RD
+      }
+      else
+      {
+        # head of the table is shown
+        s <- head(RD)
+      }
+      
+      rhandsontable(s)
+    }),
     
     
     output$custview <- renderUI({
       
       fluidRow(
-      # Either the user can select a daterange / any other custom var for a plot / stat_sum_info
-      # add observe event to select the x-axis var input type ( 1 of 3 )
-      
-      # patch for a data range selection
-      
-      # Horizontal line ----
-      # tags$hr(),
-      
-      # vintage selection for x-axis on plot
-      # sliderInput("pernum", "Vintage:",
-      #            min = 6285, max = 6411,
-      #            value = c(6315,6409)
-      # ),
-      
-      # Sample custom var selection from user as x-axis on plot
-      selectInput(
-        inputId = "xvar",
-        label =  "Choose Var for X-axis",
-        choices = vars
-      ),
-      
-      
-      # add obseve event to select type of plot
-      # add better graphical option for interactive plots
-      
-      # Sample custom var selection from user as y-axis on line plot
-      selectInput(
-        inputId = "yvar",
-        label =  "Choose var for Y-axis in a line plot",
-        choices = vars
-      ),
-      
-      actionButton(
-        "showplots",
-        "Generate plots from var selection panel "
+        # Either the user can select a daterange / any other custom var for a plot / stat_sum_info
+        # add observe event to select the x-axis var input type ( 1 of 3 )
+        
+        # patch for a data range selection
+        
+        # Horizontal line ----
+        # tags$hr(),
+        
+        # vintage selection for x-axis on plot
+        # sliderInput("pernum", "Vintage:",
+        #            min = 6285, max = 6411,
+        #            value = c(6315,6409)
+        # ),
+        
+        # Sample custom var selection from user as x-axis on plot
+        selectInput(
+          inputId = "xvar",
+          label =  "Choose Var for X-axis",
+          choices = vars
+        ),
+        
+        
+        # add obseve event to select type of plot
+        # add better graphical option for interactive plots
+        
+        # Sample custom var selection from user as y-axis on line plot
+        selectInput(
+          inputId = "yvar",
+          label =  "Choose var for Y-axis in a line plot",
+          choices = vars
+        ),
+        
+        actionButton(
+          "showplots",
+          "Generate plots from var selection panel "
+        )
       )
-    )
       
     })
-  
+    )
   })
   
-
   
- # EVENT - CLICK SHOW PLOTS INFO FOR VAR CHOSEN ----
- # dropdowns are rendered for user input of vars to create plots
-
+  
+  # EVENT - CLICK SHOW PLOTS INFO FOR VAR CHOSEN ----
+  # dropdowns are rendered for user input of vars to create plots
+  
   observeEvent(input$showplots, {
-    df2 <- RD
+   
     
     # Line Plot - daterange/vintage/xvar vs yvar1 ---
-    output$lineplot <- renderPlot({
-      plot(x = df2[, input$xvar],
-           y = df2[, input$yvar],
-           type = "l")
+    
+    output$p <- renderPlotly({
+      plot_ly(
+      x = RD[, input$xvar],
+      y = RD[, input$yvar],
+      name = "LMP-Actuals",
+      type = "bar"
+    )
     })
+    
   })
   
 }
