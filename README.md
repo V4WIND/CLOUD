@@ -12,18 +12,18 @@ CONTROLS
 https://plot.ly/r/#transforms
 TRANSOFRMS
 
-http://www.learnbymarketing.com/data-science-reading-list/
-DS reading list
+      http://www.learnbymarketing.com/data-science-reading-list/
+      DS reading list
   
-  http://www.learnbymarketing.com/methods/
-  All methods
-  
-  
-  http://www.learnbymarketing.com/tutorials/rpart-decision-trees-in-r/
-  DT in R
-  
-    http://www.learnbymarketing.com/481/decision-tree-flavors-gini-info-gain/
-    DT - Info Gain
+      http://www.learnbymarketing.com/methods/
+      All methods
+
+
+      http://www.learnbymarketing.com/tutorials/rpart-decision-trees-in-r/
+      DT in R
+
+      http://www.learnbymarketing.com/481/decision-tree-flavors-gini-info-gain/
+      DT - Info Gain
 
 
 
@@ -33,7 +33,7 @@ SOURCE
 https://www.youtube.com/watch?v=tGR7ysJlZHU
 DEMO
 
-
+https://topnonprofits.com/lists/best-nonprofit-websites/
 
 
 DOWNLOAD
