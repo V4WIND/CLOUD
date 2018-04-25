@@ -39,3 +39,10 @@ https://topnonprofits.com/lists/best-nonprofit-websites/
 DOWNLOAD
 https://www.youtube.com/watch?v=5LLHChnGILI
 DEMO
+
+
+
+
+https://www.linkedin.com/pulse/variable-reduction-art-well-science-shailendra-s
+
+https://www.analyticsvidhya.com/blog/2015/07/dimension-reduction-methods/
