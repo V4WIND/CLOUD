@@ -1,3 +1,8 @@
+# library(tibble)
+# from_ds <- as_tibble(iris)
+# from_reltn <- tibble(x = 1:5, y = 1, z = x ^ 2 + y)
+
+
 # lmpfcst
 library(shiny)
 library(rhandsontable)
@@ -52,7 +57,56 @@ ui <- fluidPage(# App title ----
                 )
 )
 
+#----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----
+####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----
 
+
+# Define server logic required to do user defined actions----
+server <- function(input, output) {
+  # About the below server script ----
+  # 1. It is "reactive" and therefore should be automatically re-executed when inputs (input$ufile & input$h) change
+  # 2. Its output are rewritale data table & stat_summary_info & custom interactive plots
+  
+  # Server output functions to be displayed on the main panel ----
+  
+  
+  observeEvent(input$ufile, {
+    # input$ufile will be NULL initially. After the user uploads a file, head of that data file is shown by default 
+    # or all obs & vars will be rendered as editable data table,  observing showplots event we show custom plots.
+    RD  <<- read.csv(
+      input$ufile$datapath, header = TRUE, sep = ",",  quote = '"'
+    )
+    
+    max_n <<- nrow(RD)
+    vars <<- colnames(RD)
+    
+    
+    fluidRow(
+    # dropdown is rendered for user input of var to create statistical summary info
+    output$stats <- renderPrint({
+      summary(RD)
+    }),
+    
+    
+    # thereby creating an rewritable custom data table view as per user choice of obs & vars ----
+    # dataview as per obs & vars selected # confirgure to show only the user choice of vars
+    output$dataview <- renderRHandsontable({
+      # we can add count of input dt vars for debugging the ERROR in case of 1 or no var selection input from the user
+      
+      if (input$h != "Head")
+      {
+        s <- RD
+      }
+      else
+      {
+        # head of the table is shown
+        s <- head(RD)
+      }
+      
+      rhandsontable(s)
+      # as_tibble(rhandsontable(s))
+      
+      
 
 ####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----
 ####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----####----
