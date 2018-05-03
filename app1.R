@@ -75,13 +75,16 @@ server <- function(input,output){
     
   })
   
-  user_sel <<- reactive ({ data[, c(inpyt$variable, input$variabley)]})
+  # user_sel <<- reactive ({ data[, c(input$variablex, input$variabley)]})
+  
+  x<<- reactive({ data[,input$variablex]})
+  y<<- reactive({ data[,input$variabley]})
   
   # For plot
   output$plot <- renderPlotly({
-    plot_ly(user_sel, 
-      x = input$variablex,
-      y = input$variabley,
+    plot_ly(
+      x = x(),
+      y = y(),
       name = "LMP-Actuals",
       type = "bar"
     )
