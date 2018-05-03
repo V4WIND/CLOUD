@@ -27,22 +27,32 @@ TRANSOFRMS
 
 
 
-TABS
-https://gist.github.com/aagarw30/c593799bc7d8557dc863411bb552e4f4
-SOURCE
-https://www.youtube.com/watch?v=tGR7ysJlZHU
-DEMO
+      TABS
+      https://gist.github.com/aagarw30/c593799bc7d8557dc863411bb552e4f4
+      SOURCE
+      https://www.youtube.com/watch?v=tGR7ysJlZHU
+      DEMO
 
-https://topnonprofits.com/lists/best-nonprofit-websites/
+      Creating Dynamic Messages
+      https://www.youtube.com/watch?v=KdvlxJaWWVQ
 
+      
+      Insurance - Claims & Payments Predictive Model Dashboard
+      https://tychobra.shinyapps.io/wc-pm-dashboard/
+      https://github.com/Tychobra/shiny-insurance-examples/tree/master/wc-pm-dashboard
+      https://www.youtube.com/watch?v=KdvlxJaWWVQ
+      
+      
+      
 
-DOWNLOAD
-https://www.youtube.com/watch?v=5LLHChnGILI
-DEMO
+      DOWNLOAD
+      https://www.youtube.com/watch?v=5LLHChnGILI
+      DEMO
 
 
 
 
 https://www.linkedin.com/pulse/variable-reduction-art-well-science-shailendra-s
-
 https://www.analyticsvidhya.com/blog/2015/07/dimension-reduction-methods/
+
+https://topnonprofits.com/lists/best-nonprofit-websites/
