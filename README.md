@@ -1,16 +1,16 @@
 # CLOUD
 
-https://plot.ly/r/custom-buttons/
-BUTTONS
+      https://plot.ly/r/custom-buttons/
+      BUTTONS
 
-https://plot.ly/r/range-slider/
-RANGE SLIDERS TIMELINE
+      https://plot.ly/r/range-slider/
+      RANGE SLIDERS TIMELINE
 
-https://plot.ly/r/#controls
-CONTROLS
+      https://plot.ly/r/#controls
+      CONTROLS
 
-https://plot.ly/r/#transforms
-TRANSOFRMS
+      https://plot.ly/r/#transforms
+      TRANSOFRMS
 
       http://www.learnbymarketing.com/data-science-reading-list/
       DS reading list
@@ -49,10 +49,12 @@ TRANSOFRMS
       https://www.youtube.com/watch?v=5LLHChnGILI
       DEMO
 
-
-
+      https://www.analyticsvidhya.com/blog/2015/07/dimension-reduction-methods/
 
 https://www.linkedin.com/pulse/variable-reduction-art-well-science-shailendra-s
-https://www.analyticsvidhya.com/blog/2015/07/dimension-reduction-methods/
 
 https://topnonprofits.com/lists/best-nonprofit-websites/
+https://www.transunion.com/blog/consumer-credit-balance-and-delinquency-rates-2018-predictions
+https://rendezvous.blogs.nytimes.com/2012/02/07/how-chinese-students-pay-u-s-tuitions/
+https://www.tandfonline.com/doi/abs/10.1080/07421222.2018.1440766
+
