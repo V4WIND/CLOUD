@@ -51,10 +51,17 @@
 
       https://www.analyticsvidhya.com/blog/2015/07/dimension-reduction-methods/
 
+
+
 https://www.linkedin.com/pulse/variable-reduction-art-well-science-shailendra-s
 
-https://topnonprofits.com/lists/best-nonprofit-websites/
+http://www.experian.in/powercurve-collections-product-sheet
+http://www.experian.in/getting-debt-collection-right
 https://www.transunion.com/blog/consumer-credit-balance-and-delinquency-rates-2018-predictions
+
+https://www.youtube.com/watch?v=Nxw5FiLeSpk
+
+https://topnonprofits.com/lists/best-nonprofit-websites/
 https://rendezvous.blogs.nytimes.com/2012/02/07/how-chinese-students-pay-u-s-tuitions/
 https://www.tandfonline.com/doi/abs/10.1080/07421222.2018.1440766
 
